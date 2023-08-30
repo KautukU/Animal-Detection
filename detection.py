@@ -14,10 +14,10 @@ def alert():
 
 def send_email(label):
 
-    Sender_Email = "@gmail.com"
-    Reciever_Email = "@gmail.com"
+    Sender_Email = "kautuk.udavant@gmail.com"
+    Reciever_Email = "Kautuk.u@gmail.com"
     # Password = input('Enter your email account password: ')
-    Password = ''   #ENTER GOOGLE APP PASSWORD HERE
+    Password = 'QWERTY2001'   #ENTER GOOGLE APP PASSWORD HERE
 
     newMessage = EmailMessage()    #creating an object of EmailMessage class
     newMessage['Subject'] = "Animal Detected" #Defining email subject
@@ -60,7 +60,7 @@ configPath = os.path.abspath("./yolo-coco/yolov3-tiny.cfg")
 
 net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
 ln = net.getLayerNames()
-ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+ln = [ln[i - 1] for i in net.getUnconnectedOutLayers()]
 
 vs = cv2.VideoCapture(0)
 writer = None
