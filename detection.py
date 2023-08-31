@@ -10,14 +10,14 @@ import imghdr
 from email.message import EmailMessage
 
 def alert():
-    threading.Thread(target=playsound, args=('alarm.wav',), daemon=True).start()
+    threading.Thread(target=playsound, args=('IntrusionAlarm.wav',), daemon=True).start()
 
 def send_email(label):
 
-    Sender_Email = "kautuk.udavant@gmail.com"
-    Reciever_Email = "Kautuk.u@gmail.com"
+    Sender_Email = "@gmail.com"
+    Reciever_Email = "@gmail.com"
     # Password = input('Enter your email account password: ')
-    Password = 'QWERTY2001'   #ENTER GOOGLE APP PASSWORD HERE
+    Password = ''   #ENTER GOOGLE APP PASSWORD HERE
 
     newMessage = EmailMessage()    #creating an object of EmailMessage class
     newMessage['Subject'] = "Animal Detected" #Defining email subject
@@ -55,8 +55,6 @@ COLORS = np.random.randint(0, 255, size=(len(LABELS), 3),
 
 weightsPath = os.path.abspath("./yolo-coco/yolov3-tiny.weights")
 configPath = os.path.abspath("./yolo-coco/yolov3-tiny.cfg")
-
-# print(configPath, "\n", weightsPath)
 
 net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
 ln = net.getLayerNames()
@@ -98,8 +96,7 @@ while True:
     for output in layerOutputs:
         # loop over each of the detections
         for detection in output:
-            # extract the class ID and confidence (i.e., probability)
-            # of the current object detection
+            # extract the class ID and confidence (i.e., probability), of the current object detected
             scores = detection[5:]
             classID = np.argmax(scores)
             confidence = scores[classID]
@@ -107,21 +104,14 @@ while True:
             # filter out weak predictions by ensuring the detected
             # probability is greater than the minimum probability
             if confidence > args["confidence"]:
-                # scale the bounding box coordinates back relative to
-                # the size of the image, keeping in mind that YOLO
-                # actually returns the center (x, y)-coordinates of
-                # the bounding box followed by the boxes' width and
-                # height
+                # scale the bounding box coordinates back relative to the size of the image
                 box = detection[0:4] * np.array([W, H, W, H])
                 (centerX, centerY, width, height) = box.astype("int")
 
-                # use the center (x, y)-coordinates to derive the top
-                # and and left corner of the bounding box
                 x = int(centerX - (width / 2))
                 y = int(centerY - (height / 2))
 
-                # update our list of bounding box coordinates,
-                # confidences, and class IDs
+                # update our list of bounding box coordinates
                 boxes.append([x, y, int(width), int(height)])
                 confidences.append(float(confidence))
                 classIDs.append(classID)
